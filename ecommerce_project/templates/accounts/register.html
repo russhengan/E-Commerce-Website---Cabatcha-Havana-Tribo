@@ -3,48 +3,143 @@
 {% block title %}Register - MyStore{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card mt-5">
+<div class="container py-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-lg auth-card">
+                <!-- Card Header -->
+                <div class="auth-header text-white text-center py-5">
+                    <i class="bi bi-person-plus" style="font-size: 2.5rem; display: block; margin-bottom: 15px; color: #f0d7a7;"></i>
+                    <h3 class="fw-bold mb-2" style="font-size: 2.25rem; color: #f0d7a7; text-shadow: 0 3px 8px rgba(0,0,0,0.4); letter-spacing: 0.5px;">Get Started</h3>
+                    <p class="opacity-75 mb-0" style="font-size: 0.95rem; color: #eee1ba;">Create your new account</p>
+                </div>
+
+                <!-- Card Body -->
                 <div class="card-body p-5">
-                    <h2 class="card-title text-center mb-4">Create Account</h2>
-                    
-                    <form method="post">
+                    <form method="post" novalidate>
                         {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" id="username" class="form-control" required>
+
+                        <!-- Username Field -->
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-bold text-secondary" style="font-size: 0.95rem;">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-person" style="color: #c37960;"></i>
+                                </span>
+                                <input type="text" name="username" id="username" class="form-control border-start-0" placeholder="Choose a username" required>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
+                        <!-- Email Field -->
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-bold text-secondary" style="font-size: 0.95rem;">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-envelope" style="color: #c37960;"></i>
+                                </span>
+                                <input type="email" name="email" id="email" class="form-control border-start-0" placeholder="Enter your email" required>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold text-secondary" style="font-size: 0.95rem;">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-lock" style="color: #c37960;"></i>
+                                </span>
+                                <input type="password" name="password" id="password" class="form-control border-start-0" placeholder="Create a password" required>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="password_confirm" class="form-label">Confirm Password</label>
-                            <input type="password" name="password_confirm" id="password_confirm" class="form-control" required>
+                        <!-- Confirm Password Field -->
+                        <div class="mb-4">
+                            <label for="password_confirm" class="form-label fw-bold text-secondary" style="font-size: 0.95rem;">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-check-circle" style="color: #c37960;"></i>
+                                </span>
+                                <input type="password" name="password_confirm" id="password_confirm" class="form-control border-start-0" placeholder="Confirm your password" required>
+                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary w-100 fw-bold rounded-3 mb-4 register-btn" style="padding: 0.6rem 1rem; font-size: 0.95rem;">
+                            <i class="bi bi-check-circle me-2"></i>Create Account
+                        </button>
                     </form>
 
-                    <hr>
+                    <hr class="text-muted">
 
-                    <p class="text-center mb-0">
-                        Already have an account? 
-                        <a href="{% url 'accounts:login' %}">Login here</a>
+                    <!-- Login Link -->
+                    <p class="text-center text-muted mb-0">
+                        Already have an account?
+                        <a href="{% url 'accounts:login' %}" class="text-decoration-none fw-bold" style="color: #c37960;">Login here</a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .auth-card {
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .auth-header {
+        background: linear-gradient(135deg, #c37960 0%, #9c634f 50%, #894e3f 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(240, 215, 167, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .input-group-text {
+        border-radius: 10px 0 0 10px;
+        border: 1px solid #eee1ba;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .form-control, .form-control-lg {
+        border: 1px solid #eee1ba;
+        border-radius: 0 10px 10px 0;
+        transition: all 0.3s ease;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .form-control:focus, .form-control-lg:focus {
+        border-color: #c37960;
+        box-shadow: 0 0 0 0.2rem rgba(195, 121, 96, 0.15);
+    }
+
+    .register-btn {
+        background-color: #c37960;
+        border-color: #c37960;
+        transition: all 0.3s ease;
+    }
+
+    .register-btn:hover {
+        background-color: #9c634f;
+        border-color: #9c634f;
+        transform: translateY(-2px);
+    }
+</style>
 {% endblock %}

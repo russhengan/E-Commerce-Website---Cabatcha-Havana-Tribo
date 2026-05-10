@@ -3,27 +3,43 @@
 {% block title %}Products - MyStore{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h1>{% if current_category %}{{ current_category.name }}{% else %}All Products{% endif %}</h1>
-        </div>
-    </div>
-
-    <div class="row">
+<div class="container py-5">
+    <div class="row g-4">
         <!-- Sidebar -->
-        <div class="col-md-3 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Categories</h5>
-                    <div class="list-group">
-                        <a href="{% url 'store:product_list' %}" class="list-group-item list-group-item-action {% if not current_category %}active{% endif %}">
-                            All Products
-                        </a>
-                        {% for category in categories %}
-                            <a href="{% url 'store:category' category.slug %}" class="list-group-item list-group-item-action {% if current_category == category %}active{% endif %}">
-                                {{ category.name }}
+        <div class="col-lg-3">
+            <div class="card border-0 shadow-sm" style="border-radius: 15px; position: sticky; top: 100px;">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4" style="color: #894e3f; font-size: 1.1rem;">
+                        <i class="bi bi-funnel" style="color: #c37960; margin-right: 8px;"></i>Categories
+                    </h5>
+                    <div class="d-flex flex-column gap-2">
+                        {% if not current_category %}
+                            <a href="{% url 'store:product_list' %}" 
+                               class="py-2 px-3 rounded-3 text-decoration-none fw-500 transition-all"
+                               style="color: #c37960; background-color: #f0d7a7; transition: all 0.3s ease;">
+                                <i class="bi bi-grid" style="margin-right: 8px;"></i>All Products
                             </a>
+                        {% else %}
+                            <a href="{% url 'store:product_list' %}" 
+                               class="py-2 px-3 rounded-3 text-decoration-none fw-500 transition-all"
+                               style="color: #555; transition: all 0.3s ease;">
+                                <i class="bi bi-grid" style="margin-right: 8px;"></i>All Products
+                            </a>
+                        {% endif %}
+                        {% for category in categories %}
+                            {% if current_category == category %}
+                                <a href="{% url 'store:category' category.slug %}" 
+                                   class="py-2 px-3 rounded-3 text-decoration-none fw-500 transition-all"
+                                   style="color: #c37960; background-color: #f0d7a7; transition: all 0.3s ease;">
+                                    {{ category.name }}
+                                </a>
+                            {% else %}
+                                <a href="{% url 'store:category' category.slug %}" 
+                                   class="py-2 px-3 rounded-3 text-decoration-none fw-500 transition-all"
+                                   style="color: #555; transition: all 0.3s ease;">
+                                    {{ category.name }}
+                                </a>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -31,38 +47,46 @@
         </div>
 
         <!-- Products Grid -->
-        <div class="col-md-9">
-            <div class="row">
+        <div class="col-lg-9">
+            <div class="row g-4">
                 {% for product in products %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card product-card h-100">
-                            {% if product.image %}
-                                <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
-                            {% else %}
-                                <div class="card-img-top product-image d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-image" style="font-size: 3rem; color: #ccc;"></i>
-                                </div>
-                            {% endif %}
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text text-muted small">{{ product.description|truncatewords:8 }}</p>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="h5 mb-0">${{ product.price }}</span>
-                                    <span class="badge {% if product.is_in_stock %}bg-success{% else %}bg-danger{% endif %}">
-                                        {% if product.is_in_stock %}In Stock{% else %}Out of Stock{% endif %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card border-0 shadow-sm h-100 product-card" style="border-radius: 15px; overflow: hidden; transition: all 0.3s ease;">
+                            <div style="position: relative; height: 200px; overflow: hidden; background-color: #f5f5f5;">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.3s ease;" alt="{{ product.name }}">
+                                {% else %}
+                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #c37960 0%, #9c634f 100%);">
+                                        <i class="bi bi-image" style="font-size: 3rem; color: rgba(255,255,255,0.5);"></i>
+                                    </div>
+                                {% endif %}
+                                {% if product.is_in_stock %}
+                                    <span class="badge" style="position: absolute; top: 12px; right: 12px; background-color: #27AE60; padding: 0.5rem 1rem; color: white; font-weight: 600;">
+                                        In Stock
                                     </span>
+                                {% else %}
+                                    <span class="badge" style="position: absolute; top: 12px; right: 12px; background-color: #E74C3C; padding: 0.5rem 1rem; color: white; font-weight: 600;">
+                                        Out of Stock
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                                <h5 class="fw-bold mb-2" style="color: #894e3f; font-size: 1.1rem;">{{ product.name }}</h5>
+                                <p class="text-muted small mb-3" style="flex-grow: 1;">{{ product.description|truncatewords:8 }}</p>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="h5 mb-0" style="color: #c37960; font-weight: 700;">${{ product.price }}</span>
                                 </div>
                             </div>
-                            <div class="card-footer bg-transparent">
-                                <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-primary btn-sm w-100 mb-2">
-                                    View Details
+                            <div class="card-footer bg-white border-0 p-4 pt-0">
+                                <a href="{% url 'store:product_detail' product.slug %}" class="btn w-100 mb-2 product-btn-hover" style="background-color: #c37960; color: white; border-radius: 10px; transition: all 0.3s ease;">
+                                    <i class="bi bi-eye me-2"></i>View Details
                                 </a>
                                 {% if product.is_in_stock %}
                                     <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="d-grid">
                                         {% csrf_token %}
                                         <input type="hidden" name="quantity" value="1">
-                                        <button type="submit" class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-cart-plus"></i> Add to Cart
+                                        <button type="submit" class="btn cart-btn-hover" style="background-color: #f0d7a7; color: #894e3f; border: 1px solid #eee1ba; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;">
+                                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
                                         </button>
                                     </form>
                                 {% endif %}
@@ -71,11 +95,34 @@
                     </div>
                 {% empty %}
                     <div class="col-12">
-                        <p class="text-center text-muted py-5">No products found.</p>
+                        <div class="alert alert-info text-center py-5" style="background-color: rgba(195, 121, 96, 0.1); border: 1px solid #eee1ba; border-radius: 15px;">
+                            <i class="bi bi-inbox" style="font-size: 2rem; color: #c37960; display: block; margin-bottom: 10px;"></i>
+                            <p class="mb-0" style="color: #894e3f;">No products found. Try another category!</p>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .product-card:hover {
+        box-shadow: 0 12px 35px rgba(195, 121, 96, 0.15) !important;
+        transform: translateY(-5px);
+    }
+    
+    .product-card img:hover {
+        transform: scale(1.05);
+    }
+    
+    .product-btn-hover:hover {
+        background-color: #9c634f !important;
+        transform: translateY(-2px);
+    }
+    
+    .cart-btn-hover:hover {
+        background-color: #eee1ba !important;
+    }
+</style>
 {% endblock %}

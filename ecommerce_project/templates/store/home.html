@@ -3,88 +3,110 @@
 {% block title %}Home - MyStore{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container py-5">
     <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-lg-12">
-            <div class="bg-primary text-white p-5 rounded-lg text-center">
-                <h1 class="display-4 fw-bold">Welcome to MyStore</h1>
-                <p class="lead">Discover amazing products at unbeatable prices</p>
-                <a href="{% url 'store:product_list' %}" class="btn btn-light btn-lg">Shop Now</a>
-            </div>
-        </div>
-    </div>
+    <section class="hero-section rounded-4 mb-5 p-5 text-center text-white">
+        <h1 class="display-4 fw-bold mb-3">Welcome to MyStore</h1>
+        <p class="lead fw-light mb-4">Discover amazing products at unbeatable prices</p>
+        <a href="{% url 'store:product_list' %}" class="btn btn-shop-now btn-lg">
+            <i class="bi bi-shop me-2"></i>Shop Now
+        </a>
+    </section>
 
-    <!-- Featured Products -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <h2 class="mb-4">Featured Products</h2>
+    <!-- Featured Products Section -->
+    <section class="mb-5">
+        <div class="section-header mb-5">
+            <h2 class="fw-bold mb-0" style="color: #894e3f; font-size: 1.75rem;">Featured Products</h2>
         </div>
-        {% for product in products %}
-            <div class="col-md-3 mb-4">
-                <div class="card product-card h-100">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
-                    {% else %}
-                        <div class="card-img-top product-image d-flex align-items-center justify-content-center">
-                            <i class="bi bi-image" style="font-size: 3rem; color: #ccc;"></i>
-                        </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">${{ product.price }}</span>
-                            <span class="badge {% if product.is_in_stock %}bg-success{% else %}bg-danger{% endif %}">
-                                {% if product.is_in_stock %}In Stock{% else %}Out of Stock{% endif %}
-                            </span>
+
+        {% if products %}
+            <div class="row g-4">
+                {% for product in products %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card product-card h-100 border-0 shadow-sm">
+                            <!-- Product Image -->
+                            <div class="product-image position-relative overflow-hidden">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top w-100 h-100">
+                                {% else %}
+                                    <div class="bg-light d-flex align-items-center justify-content-center h-100">
+                                        <i class="bi bi-image text-secondary" style="font-size: 3rem;"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Product Info -->
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mb-2">{{ product.name }}</h5>
+                                <p class="card-text text-muted flex-grow-1 small">{{ product.description|truncatewords:10 }}</p>
+                                
+                                <!-- Price & Stock Badge -->
+                                <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                    <span class="h5 mb-0 fw-bold" style="color: #c37960;">${{ product.price }}</span>
+                                    <span class="badge {% if product.is_in_stock %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ product.is_in_stock|yesno:"In Stock,Out of Stock" }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Card Footer Actions -->
+                            <div class="card-footer bg-white border-top pt-3">
+                                <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-primary btn-sm w-100 mb-2">
+                                    <i class="bi bi-eye me-1"></i>View Details
+                                </a>
+                                {% if product.is_in_stock %}
+                                    <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="d-grid">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-cart-plus"></i> Add to Cart
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-transparent">
-                        <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-primary btn-sm w-100 mb-2">
-                            View Details
-                        </a>
-                        {% if product.is_in_stock %}
-                            <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="d-grid">
-                                {% csrf_token %}
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="btn btn-outline-primary btn-sm">
-                                    <i class="bi bi-cart-plus"></i> Add to Cart
-                                </button>
-                            </form>
-                        {% endif %}
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-        {% empty %}
-            <div class="col-12">
-                <p class="text-center text-muted">No products available yet.</p>
+        {% else %}
+            <div class="alert alert-info text-center py-5" role="alert">
+                <i class="bi bi-inbox" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                <p class="mb-0">No products available yet.</p>
             </div>
-        {% endfor %}
-    </div>
+        {% endif %}
+    </section>
 
     <!-- Categories Section -->
-    <div class="row">
-        <div class="col-12">
-            <h2 class="mb-4">Shop by Category</h2>
+    <section>
+        <div class="section-header mb-5">
+            <h2 class="fw-bold mb-0" style="color: #894e3f; font-size: 1.75rem;">Shop by Category</h2>
         </div>
-        {% for category in categories %}
-            <div class="col-md-4 mb-4">
-                <div class="card text-center">
-                    <div class="card-body py-5">
-                        <h5 class="card-title">{{ category.name }}</h5>
-                        <p class="card-text text-muted">{{ category.products.count }} products</p>
-                        <a href="{% url 'store:category' category.slug %}" class="btn btn-primary">
-                            Browse Category
-                        </a>
+
+        {% if categories %}
+            <div class="row g-4">
+                {% for category in categories %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card category-card h-100 border-0 shadow-sm p-4 text-center">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-2" style="font-size: 1.1rem; color: #894e3f;">{{ category.name }}</h5>
+                                <p class="card-text text-muted small mb-3" style="font-size: 0.9rem;">
+                                    <i class="bi bi-bag"></i>
+                                    {{ category.products.count }} products
+                                </p>
+                                <a href="{% url 'store:category' category.slug %}" class="btn btn-primary rounded-pill px-4">
+                                    Browse Category
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        {% empty %}
-            <div class="col-12">
-                <p class="text-center text-muted">No categories available.</p>
+        {% else %}
+            <div class="alert alert-info text-center py-5" role="alert">
+                <i class="bi bi-folder" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                <p class="mb-0">No categories available.</p>
             </div>
-        {% endfor %}
-    </div>
+        {% endif %}
+    </section>
 </div>
 {% endblock %}

@@ -3,46 +3,90 @@
 {% block title %}My Profile - MyStore{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <h1 class="mb-4">My Profile</h1>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <h5>Account Information</h5>
-                            <p>
-                                <strong>Username:</strong> {{ user.username }}<br>
-                                <strong>Email:</strong> {{ user.email }}<br>
-                                <strong>First Name:</strong> {{ user.first_name|default:"Not set" }}<br>
-                                <strong>Last Name:</strong> {{ user.last_name|default:"Not set" }}
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5>Profile Information</h5>
-                            <p>
-                                <strong>Phone:</strong> {{ user.profile.phone|default:"Not set" }}<br>
-                                <strong>City:</strong> {{ user.profile.city|default:"Not set" }}<br>
-                                <strong>Country:</strong> {{ user.profile.country|default:"Not set" }}
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
-                    <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">
-                        Edit Profile
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h1 class="fw-bold" style="color: #894e3f; font-size: 2rem;">My Profile</h1>
+                    <p class="text-muted" style="font-size: 0.95rem;">Manage your account and view your information</p>
+                </div>
+                <div>
+                    <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary rounded-3" style="padding: 0.6rem 1.5rem; font-size: 0.95rem;">
+                        <i class="bi bi-pencil me-2"></i>Edit Profile
                     </a>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h5>Bio</h5>
+    <div class="row g-4">
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Account Information Card -->
+            <div class="card border-0 shadow-sm mb-4 profile-card">
+                <div class="card-header bg-white border-bottom py-4">
+                    <h5 class="fw-bold mb-0" style="color: #894e3f; font-size: 1.1rem;">
+                        <i class="bi bi-person-circle me-2" style="color: #c37960;"></i>Account Information
+                    </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <p class="text-muted small mb-1">USERNAME</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.username }}</p>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <p class="text-muted small mb-1">EMAIL</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.email }}</p>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <p class="text-muted small mb-1">FIRST NAME</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.first_name|default:"Not set" }}</p>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <p class="text-muted small mb-1">LAST NAME</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.last_name|default:"Not set" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Information Card -->
+            <div class="card border-0 shadow-sm mb-4 profile-card">
+                <div class="card-header bg-white border-bottom py-4">
+                    <h5 class="fw-bold mb-0" style="color: #894e3f;">
+                        <i class="bi bi-geo-alt me-2" style="color: #c37960;"></i>Profile Information
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <p class="text-muted small mb-1">PHONE</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.profile.phone|default:"Not set" }}</p>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <p class="text-muted small mb-1">CITY</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.profile.city|default:"Not set" }}</p>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <p class="text-muted small mb-1">COUNTRY</p>
+                            <p class="fw-bold" style="color: #894e3f; font-size: 1.1rem;">{{ user.profile.country|default:"Not set" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bio Card -->
+            <div class="card border-0 shadow-sm profile-card">
+                <div class="card-header bg-white border-bottom py-4">
+                    <h5 class="fw-bold mb-0" style="color: #894e3f;">
+                        <i class="bi bi-chat-left-text me-2" style="color: #c37960;"></i>Bio
+                    </h5>
+                </div>
+                <div class="card-body p-4">
                     {% if user.profile.bio %}
-                        {{ user.profile.bio }}
+                        <p style="color: #555; line-height: 1.8;">{{ user.profile.bio }}</p>
                     {% else %}
                         <p class="text-muted">No bio added yet.</p>
                     {% endif %}
@@ -50,31 +94,39 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Quick Links</h5>
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <!-- Quick Links Card -->
+            <div class="card border-0 shadow-sm profile-card" style="position: sticky; top: 120px; z-index: 10;">
+                <div class="card-header bg-white border-bottom py-4">
+                    <h5 class="fw-bold mb-0" style="color: #894e3f;">
+                        <i class="bi bi-lightning me-2" style="color: #c37960;"></i>Quick Links
+                    </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a href="{% url 'orders:order_history' %}" class="text-decoration-none">
-                                View Orders
+                        <li class="mb-3">
+                            <a href="{% url 'orders:order_history' %}" class="text-decoration-none d-flex align-items-center py-2 px-3 rounded-3 quick-link-item">
+                                <i class="bi bi-box-seam me-3" style="font-size: 1.2rem; color: #c37960;"></i>
+                                <span class="fw-bold">My Orders</span>
                             </a>
                         </li>
-                        <li class="mb-2">
-                            <a href="{% url 'cart:cart_view' %}" class="text-decoration-none">
-                                Shopping Cart
+                        <li class="mb-3">
+                            <a href="{% url 'cart:cart_view' %}" class="text-decoration-none d-flex align-items-center py-2 px-3 rounded-3 quick-link-item">
+                                <i class="bi bi-bag me-3" style="font-size: 1.2rem; color: #c37960;"></i>
+                                <span class="fw-bold">Shopping Cart</span>
                             </a>
                         </li>
-                        <li class="mb-2">
-                            <a href="{% url 'store:product_list' %}" class="text-decoration-none">
-                                Shop Products
+                        <li class="mb-3">
+                            <a href="{% url 'store:product_list' %}" class="text-decoration-none d-flex align-items-center py-2 px-3 rounded-3 quick-link-item">
+                                <i class="bi bi-shop me-3" style="font-size: 1.2rem; color: #c37960;"></i>
+                                <span class="fw-bold">Continue Shopping</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'accounts:logout' %}" class="text-decoration-none text-danger">
-                                Logout
+                            <a href="{% url 'accounts:logout' %}" class="text-decoration-none d-flex align-items-center py-2 px-3 rounded-3 quick-link-item" style="color: #E74C3C;">
+                                <i class="bi bi-box-arrow-right me-3" style="font-size: 1.2rem;"></i>
+                                <span class="fw-bold">Logout</span>
                             </a>
                         </li>
                     </ul>
@@ -83,4 +135,27 @@
         </div>
     </div>
 </div>
+
+<style>
+    .profile-card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .profile-card:hover {
+        box-shadow: 0 8px 25px rgba(195, 121, 96, 0.1);
+    }
+
+    .quick-link-item {
+        color: #555;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9;
+    }
+
+    .quick-link-item:hover {
+        background-color: #f0d7a7;
+        color: #894e3f;
+        transform: translateX(5px);
+    }
+</style>
 {% endblock %}

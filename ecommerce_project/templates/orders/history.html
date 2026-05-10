@@ -3,44 +3,43 @@
 {% block title %}Order History - MyStore{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mb-4">Order History</h1>
+<div style="background: linear-gradient(135deg, #c37960 0%, #9c634f 50%, #894e3f 100%); padding: 3rem 0; margin-bottom: 2rem;">
+    <div class="container">
+        <h1 class="fw-bold" style="color: white; font-size: 2rem; margin-bottom: 0.5rem;">Order History</h1>
+        <p style="color: rgba(255,255,255,0.9); font-size: 1rem;">View all your orders</p>
+    </div>
+</div>
+
+<div class="container pb-5">
 
     {% if orders %}
         <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-light">
+            <table class="table table-hover" style="border-collapse: collapse;">
+                <thead style="background-color: #f9f9f9; border-bottom: 2px solid #eee1ba;">
                     <tr>
-                        <th>Order #</th>
-                        <th>Date</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th style="color: #894e3f; font-weight: 600; padding: 1rem;">Order #</th>
+                        <th style="color: #894e3f; font-weight: 600; padding: 1rem;">Date</th>
+                        <th style="color: #894e3f; font-weight: 600; padding: 1rem;">Total</th>
+                        <th style="color: #894e3f; font-weight: 600; padding: 1rem;">Status</th>
+                        <th style="color: #894e3f; font-weight: 600; padding: 1rem;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for order in orders %}
-                        <tr>
-                            <td>
-                                <strong>{{ order.order_number }}</strong>
+                        <tr style="border-bottom: 1px solid #eee1ba; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='#f9f9f9';" onmouseout="this.style.backgroundColor='transparent';">
+                            <td style="color: #894e3f; font-weight: 600; padding: 1rem;">
+                                {{ order.order_number }}
                             </td>
-                            <td>{{ order.created_at|date:"M d, Y" }}</td>
-                            <td>${{ order.total_amount }}</td>
-                            <td>
-                                <span class="badge 
-                                    {% if order.status == 'pending' %}bg-warning
-                                    {% elif order.status == 'processing' %}bg-info
-                                    {% elif order.status == 'shipped' %}bg-primary
-                                    {% elif order.status == 'delivered' %}bg-success
-                                    {% elif order.status == 'cancelled' %}bg-danger
-                                    {% endif %}
-                                ">
+                            <td style="color: #555; padding: 1rem;">{{ order.created_at|date:"M d, Y" }}</td>
+                            <td style="color: #c37960; font-weight: 600; padding: 1rem;">${{ order.total_amount }}</td>
+                            <td style="padding: 1rem;">
+                                <span class="badge" style="{% if order.status == 'pending' %}background-color: #F39C12;{% elif order.status == 'processing' %}background-color: #3498DB;{% elif order.status == 'shipped' %}background-color: #2980B9;{% elif order.status == 'delivered' %}background-color: #27AE60;{% elif order.status == 'cancelled' %}background-color: #E74C3C;{% endif %} padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">
                                     {{ order.get_status_display }}
                                 </span>
                             </td>
-                            <td>
-                                <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm btn-outline-primary">
-                                    View
+                            <td style="padding: 1rem;">
+                                <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm" style="background-color: #c37960; color: white; border: none; padding: 0.5rem 1rem; font-weight: 600; border-radius: 6px; transition: all 0.3s ease; font-size: 0.9rem;" onmouseover="this.style.backgroundColor='#9c634f'; this.style.transform='scale(1.05)';" onmouseout="this.style.backgroundColor='#c37960'; this.style.transform='scale(1);">
+                                    <i class="bi bi-eye me-1"></i>View
                                 </a>
                             </td>
                         </tr>
@@ -49,10 +48,11 @@
             </table>
         </div>
     {% else %}
-        <div class="alert alert-info">
-            <p class="mb-0">You haven't placed any orders yet.</p>
-            <a href="{% url 'store:product_list' %}" class="btn btn-primary mt-2">
-                Start Shopping
+        <div class="alert" style="background-color: rgba(240, 215, 167, 0.3); border: 1px solid #eee1ba; border-radius: 10px; padding: 2rem; text-align: center;">
+            <i class="bi bi-box-seam" style="font-size: 3rem; color: #c37960; display: block; margin-bottom: 1rem;"></i>
+            <p class="mb-3" style="color: #555; font-size: 1.05rem;">You haven't placed any orders yet.</p>
+            <a href="{% url 'store:product_list' %}" class="btn" style="background-color: #c37960; color: white; border: none; padding: 0.75rem 1.5rem; font-weight: 600; border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#9c634f'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#c37960'; this.style.transform='translateY(0);">
+                <i class="bi bi-shop me-2"></i>Start Shopping
             </a>
         </div>
     {% endif %}

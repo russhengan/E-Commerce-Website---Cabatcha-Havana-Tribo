@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"c:\\\\Python Shits\\\\E-Commerce-Website---Cabatcha-Havana-Tribo\\\\ecommerce_project\" ; python manage\\.py add_dummy_products$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

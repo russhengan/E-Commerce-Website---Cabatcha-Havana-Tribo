@@ -3,134 +3,153 @@
 {% block title %}{{ product.name }} - MyStore{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
+<div class="container py-5">
+    <div class="row g-5">
         <!-- Product Image -->
-        <div class="col-md-6 mb-4">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}" style="max-height: 500px; object-fit: cover;">
-            {% else %}
-                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 500px;">
-                    <i class="bi bi-image" style="font-size: 5rem; color: #ccc;"></i>
-                </div>
-            {% endif %}
+        <div class="col-lg-6 mb-4">
+            <div style="border-radius: 15px; overflow: hidden; background: linear-gradient(135deg, #f0d7a7 0%, #eee1ba 100%); padding: 20px;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="w-100 rounded" style="max-height: 500px; object-fit: cover;" alt="{{ product.name }}">
+                {% else %}
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 500px; background: linear-gradient(135deg, #c37960 0%, #9c634f 100%);">
+                        <i class="bi bi-image" style="font-size: 5rem; color: rgba(255,255,255,0.5);"></i>
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
         <!-- Product Details -->
-        <div class="col-md-6">
-            <div class="d-flex justify-content-between align-items-start mb-3">
-                <div>
-                    <h1>{{ product.name }}</h1>
-                    <a href="{% url 'store:category' product.category.slug %}" class="text-muted text-decoration-none">
-                        {{ product.category.name }}
-                    </a>
+        <div class="col-lg-6">
+            <div class="mb-4">
+                <a href="{% url 'store:category' product.category.slug %}" class="badge" style="background-color: #f0d7a7; color: #894e3f; text-decoration: none; padding: 0.5rem 1rem; font-size: 0.95rem; font-weight: 600;">
+                    {{ product.category.name }}
+                </a>
+                <h1 class="fw-bold mt-3 mb-2" style="color: #894e3f; font-size: 2.5rem;">{{ product.name }}</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="h3" style="color: #c37960; font-weight: 700; margin: 0;">${{ product.price }}</span>
+                    {% if product.is_in_stock %}
+                        <span class="badge" style="background-color: #27AE60; padding: 0.5rem 1rem; font-size: 0.9rem;">In Stock ({{ product.stock }} available)</span>
+                    {% else %}
+                        <span class="badge" style="background-color: #E74C3C; padding: 0.5rem 1rem; font-size: 0.9rem;">Out of Stock</span>
+                    {% endif %}
                 </div>
-                <span class="badge {% if product.is_in_stock %}bg-success{% else %}bg-danger{% endif %} p-2">
-                    {% if product.is_in_stock %}In Stock ({{ product.stock }} available){% else %}Out of Stock{% endif %}
-                </span>
             </div>
 
             <div class="mb-4">
-                <span class="h3 text-primary">${{ product.price }}</span>
-            </div>
-
-            <div class="mb-4">
-                <h5>Description</h5>
-                <p>{{ product.description }}</p>
+                <h5 class="fw-bold mb-3" style="color: #894e3f; font-size: 1.2rem;">
+                    <i class="bi bi-info-circle me-2" style="color: #c37960;"></i>Description
+                </h5>
+                <p class="text-muted" style="line-height: 1.8;">{{ product.description }}</p>
             </div>
 
             <!-- Add to Cart -->
             {% if product.is_in_stock %}
                 <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="mb-4">
                     {% csrf_token %}
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="decreaseQty">-</button>
-                        <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" max="{{ product.stock }}" style="max-width: 100px;">
-                        <button class="btn btn-outline-secondary" type="button" id="increaseQty">+</button>
+                    <div class="input-group mb-4" style="max-width: 200px;">
+                        <button class="btn" type="button" id="decreaseQty" style="background-color: #eee1ba; color: #894e3f; border: 1px solid #eee1ba; font-weight: 700;">−</button>
+                        <input type="number" name="quantity" id="quantity" class="form-control text-center" value="1" min="1" max="{{ product.stock }}" style="border-color: #eee1ba; font-weight: 600;">
+                        <button class="btn" type="button" id="increaseQty" style="background-color: #eee1ba; color: #894e3f; border: 1px solid #eee1ba; font-weight: 700;">+</button>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    <button type="submit" class="btn w-100 mb-3" style="background-color: #c37960; color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: 600; border-radius: 10px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#9c634f'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#c37960'; this.style.transform='translateY(0)';">
+                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
                     </button>
                 </form>
             {% endif %}
 
-            <hr>
+            <hr style="border-color: #eee1ba;">
 
-            <div class="mb-4">
-                <p class="text-muted">
-                    <strong>SKU:</strong> {{ product.id }}<br>
-                    <strong>Category:</strong> {{ product.category.name }}<br>
-                    <strong>Stock:</strong> {{ product.stock }} units
+            <div class="mb-4" style="background-color: rgba(240, 215, 167, 0.3); padding: 1.5rem; border-radius: 10px;">
+                <p class="mb-2" style="color: #555;">
+                    <strong style="color: #894e3f;">SKU:</strong> {{ product.id }}
+                </p>
+                <p class="mb-2" style="color: #555;">
+                    <strong style="color: #894e3f;">Category:</strong> {{ product.category.name }}
+                </p>
+                <p class="mb-0" style="color: #555;">
+                    <strong style="color: #894e3f;">Stock:</strong> {{ product.stock }} units
                 </p>
             </div>
         </div>
     </div>
 
     <!-- Reviews Section -->
-    <div class="row mt-5">
+    <div class="row mt-5 pt-5 g-4">
         <div class="col-12">
-            <h3>Customer Reviews</h3>
-            <hr>
+            <h3 class="fw-bold mb-4" style="color: #894e3f; font-size: 1.5rem;">
+                <i class="bi bi-chat-left-quote me-2" style="color: #c37960;"></i>Customer Reviews
+            </h3>
+            <hr style="border-color: #eee1ba; border-width: 2px;">
         </div>
 
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Average Rating</h5>
+        <div class="col-lg-5">
+            <!-- Average Rating -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px; background: linear-gradient(135deg, rgba(240, 215, 167, 0.5) 0%, rgba(238, 225, 186, 0.5) 100%);">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3" style="color: #894e3f;">Average Rating</h5>
                     <div class="mb-3">
-                        <span class="h2">{{ avg_rating|floatformat:1 }}</span>
-                        <span class="text-muted">/ 5.0</span>
+                        <span class="h2" style="color: #c37960; font-weight: 700;">{{ avg_rating|floatformat:1 }}</span>
+                        <span class="text-muted" style="font-size: 1.1rem;">/5.0</span>
                     </div>
-                    <p class="text-muted">Based on {{ reviews.count }} review{{ reviews.count|pluralize }}</p>
+                    <p class="text-muted mb-0">Based on <strong>{{ reviews.count }}</strong> review{{ reviews.count|pluralize }}</p>
                 </div>
             </div>
 
+            <!-- Add Review Form -->
             {% if user.is_authenticated %}
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Add Your Review</h5>
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4" style="color: #894e3f;">
+                            <i class="bi bi-pencil-square me-2" style="color: #c37960;"></i>Add Your Review
+                        </h5>
                         <form method="post" action="{% url 'store:add_review' product.slug %}">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="rating" class="form-label">Rating</label>
-                                <select name="rating" id="rating" class="form-select" required>
+                                <label for="rating" class="form-label fw-bold" style="color: #894e3f;">Rating</label>
+                                <select name="rating" id="rating" class="form-select" style="border-color: #eee1ba; padding: 0.6rem; border-radius: 8px;" required>
                                     <option value="">Select rating...</option>
-                                    <option value="5">5 - Excellent</option>
-                                    <option value="4">4 - Good</option>
-                                    <option value="3">3 - Average</option>
-                                    <option value="2">2 - Fair</option>
-                                    <option value="1">1 - Poor</option>
+                                    <option value="5">5 Stars - Excellent</option>
+                                    <option value="4">4 Stars - Good</option>
+                                    <option value="3">3 Stars - Average</option>
+                                    <option value="2">2 Stars - Fair</option>
+                                    <option value="1">1 Star - Poor</option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="comment" class="form-label">Comment</label>
-                                <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Share your thoughts..." required></textarea>
+                                <label for="comment" class="form-label fw-bold" style="color: #894e3f;">Comment</label>
+                                <textarea name="comment" id="comment" class="form-control" rows="4" placeholder="Share your thoughts..." style="border-color: #eee1ba; padding: 0.75rem; border-radius: 8px;" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Submit Review</button>
+                            <button type="submit" class="btn w-100" style="background-color: #c37960; color: white; border: none; padding: 0.75rem; font-weight: 600; border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#9c634f';" onmouseout="this.style.backgroundColor='#c37960';">Submit Review</button>
                         </form>
                     </div>
                 </div>
             {% else %}
-                <div class="alert alert-info mt-3">
-                    <a href="{% url 'accounts:login' %}">Login</a> to leave a review.
+                <div class="alert" style="background-color: rgba(195, 121, 96, 0.1); border: 1px solid #eee1ba; border-radius: 10px; padding: 1rem;">
+                    <p class="mb-0" style="color: #894e3f;">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <a href="{% url 'accounts:login' %}" style="color: #c37960; font-weight: 600;">Login</a> to leave a review.
+                    </p>
                 </div>
             {% endif %}
         </div>
 
-        <div class="col-md-6">
+        <!-- Reviews List -->
+        <div class="col-lg-7">
             {% for review in reviews %}
-                <div class="card mb-3">
-                    <div class="card-body">
+                <div class="card border-0 shadow-sm mb-3" style="border-radius: 15px; border-left: 4px solid #c37960;">
+                    <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <strong>{{ review.user.get_full_name|default:review.user.username }}</strong>
-                            <span class="badge bg-primary">{{ review.rating }}/5</span>
+                            <strong style="color: #894e3f; font-size: 1.1rem;">{{ review.user.get_full_name|default:review.user.username }}</strong>
+                            <span class="badge" style="background-color: #f0d7a7; color: #894e3f; padding: 0.4rem 0.8rem; font-weight: 600;">{{ review.rating }}/5 Stars</span>
                         </div>
-                        <p class="card-text">{{ review.comment }}</p>
-                        <small class="text-muted">{{ review.created_at|date:"M d, Y" }}</small>
+                        <p class="card-text text-muted mb-3" style="line-height: 1.6;">{{ review.comment }}</p>
+                        <small style="color: #999;"><i class="bi bi-calendar3 me-1"></i>{{ review.created_at|date:"M d, Y" }}</small>
                     </div>
                 </div>
             {% empty %}
-                <p class="text-muted">No reviews yet. Be the first to review!</p>
+                <div class="alert" style="background-color: rgba(240, 215, 167, 0.3); border: 1px solid #eee1ba; border-radius: 10px; padding: 2rem; text-align: center;">
+                    <p class="text-muted mb-0">No reviews yet. Be the first to share your experience!</p>
+                </div>
             {% endfor %}
         </div>
     </div>
