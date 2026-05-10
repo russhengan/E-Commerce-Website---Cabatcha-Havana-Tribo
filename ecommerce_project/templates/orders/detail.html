@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Details - MyStore{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{% url 'orders:order_history' %}" class="btn btn-outline-secondary mb-3">
+                ← Back to Orders
+            </a>
+            <h1>Order {{ order.order_number }}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Order Status -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Order Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong></p>
+                            <span class="badge 
+                                {% if order.status == 'pending' %}bg-warning
+                                {% elif order.status == 'processing' %}bg-info
+                                {% elif order.status == 'shipped' %}bg-primary
+                                {% elif order.status == 'delivered' %}bg-success
+                                {% elif order.status == 'cancelled' %}bg-danger
+                                {% endif %}
+                            ">
+                                {{ order.get_status_display }}
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Payment Status:</strong></p>
+                            <span class="badge {% if order.is_paid %}bg-success{% else %}bg-warning{% endif %}">
+                                {% if order.is_paid %}Paid{% else %}Pending{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Order Items</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>${{ item.price }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>${{ item.get_total_price }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="table-light">
+                                <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                <td><strong>${{ order.total_amount }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Shipping Address -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Shipping Address</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
+                        {{ order.address }}<br>
+                        {{ order.city }}, {{ order.postal_code }}<br>
+                        {{ order.country }}
+                    </p>
+                    <p class="mb-0 text-muted">
+                        <strong>Phone:</strong> {{ order.phone }}<br>
+                        <strong>Email:</strong> {{ order.email }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Order Info -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Order Information</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Order Date:</strong><br>
+                        {{ order.created_at|date:"M d, Y H:i" }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Payment Method:</strong><br>
+                        {{ order.get_payment_method_display }}
+                    </p>
+                    <p class="mb-0">
+                        <strong>Order Total:</strong><br>
+                        <span class="h5">${{ order.total_amount }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - MyStore{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="bg-primary text-white p-5 rounded-lg text-center">
+                <h1 class="display-4 fw-bold">Welcome to MyStore</h1>
+                <p class="lead">Discover amazing products at unbeatable prices</p>
+                <a href="{% url 'store:product_list' %}" class="btn btn-light btn-lg">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="mb-4">Featured Products</h2>
+        </div>
+        {% for product in products %}
+            <div class="col-md-3 mb-4">
+                <div class="card product-card h-100">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="card-img-top product-image d-flex align-items-center justify-content-center">
+                            <i class="bi bi-image" style="font-size: 3rem; color: #ccc;"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">${{ product.price }}</span>
+                            <span class="badge {% if product.is_in_stock %}bg-success{% else %}bg-danger{% endif %}">
+                                {% if product.is_in_stock %}In Stock{% else %}Out of Stock{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-primary btn-sm w-100 mb-2">
+                            View Details
+                        </a>
+                        {% if product.is_in_stock %}
+                            <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="d-grid">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No products available yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Categories Section -->
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Shop by Category</h2>
+        </div>
+        {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="card text-center">
+                    <div class="card-body py-5">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text text-muted">{{ category.products.count }} products</p>
+                        <a href="{% url 'store:category' category.slug %}" class="btn btn-primary">
+                            Browse Category
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No categories available.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

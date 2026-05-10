@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation - MyStore{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="bi bi-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="card-title mb-3">Order Confirmed!</h2>
+                    <p class="card-text text-muted mb-4">
+                        Thank you for your purchase. Your order has been successfully placed.
+                    </p>
+
+                    <div class="bg-light p-4 rounded mb-4">
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <p><strong>Order Number:</strong></p>
+                                <p class="h5">{{ order.order_number }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Order Date:</strong></p>
+                                <p class="h5">{{ order.created_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <p><strong>Total Amount:</strong></p>
+                                <p class="h5">${{ order.total_amount }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Status:</strong></p>
+                                <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Order Items:</h5>
+                        <div class="text-start">
+                            {% for item in order.items.all %}
+                                <div class="d-flex justify-content-between py-2 border-bottom">
+                                    <span>{{ item.product.name }} x{{ item.quantity }}</span>
+                                    <span>${{ item.get_total_price }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="bg-light p-3 rounded mb-4">
+                        <p class="mb-0"><strong>Shipping To:</strong></p>
+                        <p class="mb-0">{{ order.first_name }} {{ order.last_name }}</p>
+                        <p class="mb-0">{{ order.address }}</p>
+                        <p>{{ order.city }}, {{ order.postal_code }}, {{ order.country }}</p>
+                    </div>
+
+                    <p class="text-muted mb-4">
+                        A confirmation email has been sent to <strong>{{ order.email }}</strong>
+                    </p>
+
+                    <div>
+                        <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-primary me-2">
+                            View Order Details
+                        </a>
+                        <a href="{% url 'store:home' %}" class="btn btn-outline-secondary">
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
