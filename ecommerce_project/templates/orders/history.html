@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Order History - MyStore{% endblock %}
+{% block title %}Order History{% endblock %}
 
 {% block content %}
 <div style="background: linear-gradient(135deg, #c37960 0%, #9c634f 50%, #894e3f 100%); padding: 3rem 0; margin-bottom: 2rem;">
@@ -33,9 +33,19 @@
                             <td style="color: #555; padding: 1rem;">{{ order.created_at|date:"M d, Y" }}</td>
                             <td style="color: #c37960; font-weight: 600; padding: 1rem;">${{ order.total_amount }}</td>
                             <td style="padding: 1rem;">
-                                <span class="badge" style="{% if order.status == 'pending' %}background-color: #F39C12;{% elif order.status == 'processing' %}background-color: #3498DB;{% elif order.status == 'shipped' %}background-color: #2980B9;{% elif order.status == 'delivered' %}background-color: #27AE60;{% elif order.status == 'cancelled' %}background-color: #E74C3C;{% endif %} padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">
-                                    {{ order.get_status_display }}
-                                </span>
+                                {% if order.status == 'pending' %}
+                                    <span class="badge" style="background-color: #F39C12; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'processing' %}
+                                    <span class="badge" style="background-color: #3498DB; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'shipped' %}
+                                    <span class="badge" style="background-color: #2980B9; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'delivered' %}
+                                    <span class="badge" style="background-color: #27AE60; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>
+                                {% elif order.status == 'cancelled' %}
+                                    <span class="badge" style="background-color: #E74C3C; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>
+                                {% else %}
+                                    <span class="badge" style="background-color: #95a5a6; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>
+                                {% endif %}
                             </td>
                             <td style="padding: 1rem;">
                                 <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm" style="background-color: #c37960; color: white; border: none; padding: 0.5rem 1rem; font-weight: 600; border-radius: 6px; transition: all 0.3s ease; font-size: 0.9rem;" onmouseover="this.style.backgroundColor='#9c634f'; this.style.transform='scale(1.05)';" onmouseout="this.style.backgroundColor='#c37960'; this.style.transform='scale(1);">
