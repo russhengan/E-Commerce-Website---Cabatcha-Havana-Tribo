@@ -32,7 +32,7 @@ def checkout(request):
             postal_code=request.POST.get('postal_code'),
             country=request.POST.get('country'),
             total_amount=cart.get_total_price(),
-            payment_method=request.POST.get('payment_method', 'card'),
+            payment_method=request.POST.get('payment_method', 'cod'),
         )
         
         # Create order items

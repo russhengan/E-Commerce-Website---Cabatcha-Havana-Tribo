@@ -12,6 +12,10 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     
+    PAYMENT_METHOD_CHOICES = [
+        ('cod', 'Cash on Delivery'),
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     order_number = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=100)
@@ -25,7 +29,7 @@ class Order(models.Model):
     
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    payment_method = models.CharField(max_length=50, default='card')
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default='cod')
     is_paid = models.BooleanField(default=False)
     
     created_at = models.DateTimeField(auto_now_add=True)

@@ -42,7 +42,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="padding: 1rem; color: #c37960; font-weight: 600;">${{ item.product.price }}</td>
+                                        <td style="padding: 1rem; color: #c37960; font-weight: 600;">₱{{ item.product.price }}</td>
                                         <td style="padding: 1rem; vertical-align: middle;">
                                             <form method="post" action="{% url 'cart:update_quantity' item.id %}" id="qty-form-{{ item.id }}" class="d-flex align-items-center">
                                                 {% csrf_token %}
@@ -50,7 +50,7 @@
                                                 <button type="submit" class="btn btn-sm btn-outline-secondary ms-2" style="opacity: 0; pointer-events: none; width: 0; padding: 0; margin: 0;">Update</button>
                                             </form>
                                         </td>
-                                        <td style="padding: 1rem; color: #894e3f; font-weight: 700; font-size: 1.1rem;">${{ item.get_total_price }}</td>
+                                        <td style="padding: 1rem; color: #894e3f; font-weight: 700; font-size: 1.1rem;">₱{{ item.get_total_price }}</td>
                                         <td style="padding: 1rem; vertical-align: middle;">
                                             <form method="post" action="{% url 'cart:remove_from_cart' item.id %}">
                                                 {% csrf_token %}
@@ -75,7 +75,7 @@
                         <hr style="border-color: #eee1ba;">
                         <div class="d-flex justify-content-between mb-3" style="color: #666; font-size: 0.95rem;">
                             <span>Subtotal:</span>
-                            <span style="color: #555; font-weight: 600;">${{ cart.get_total_price }}</span>
+                            <span style="color: #555; font-weight: 600;">₱{{ cart.get_total_price }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-3" style="color: #666; font-size: 0.95rem;">
                             <span>Shipping:</span>
@@ -88,7 +88,7 @@
                         <hr style="border-color: #eee1ba;">
                         <div class="d-flex justify-content-between mb-4" style="background: linear-gradient(135deg, #f0d7a7 0%, #eee1ba 100%); padding: 1rem; border-radius: 10px;">
                             <strong style="color: #894e3f;">Total:</strong>
-                            <strong style="color: #894e3f; font-size: 1.3rem;">${{ cart.get_total_price }}</strong>
+                            <strong style="color: #894e3f; font-size: 1.3rem;">₱{{ cart.get_total_price }}</strong>
                         </div>
                         <a href="{% url 'orders:checkout' %}" class="btn w-100 mb-2 btn-checkout-hover" style="background-color: #c37960; color: white; border: none; border-radius: 8px; padding: 0.75rem 1rem; font-weight: 600; transition: all 0.2s ease;">
                             Proceed to Checkout

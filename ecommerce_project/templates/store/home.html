@@ -6,8 +6,8 @@
 <div class="container py-5">
     <!-- Hero Section -->
     <section class="hero-section rounded-4 mb-5 p-5 text-center text-white">
-        <h1 class="display-4 fw-bold mb-3">Welcome to ROSALITO TINAPAY TITO</h1>
-        <p class="lead fw-light mb-4">Discover amazing products at unbeatable prices</p>
+        <h1 class="display-4 fw-bold mb-3">Welcome to Crumb and Co. </h1>
+        <p class="lead fw-light mb-4">Your cozy corner for freshly baked happiness</p>
         <a href="{% url 'store:product_list' %}" class="btn btn-shop-now btn-lg">
             <i class="bi bi-shop me-2"></i>Shop Now
         </a>
@@ -42,7 +42,7 @@
                                 
                                 <!-- Price & Stock Badge -->
                                 <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                                    <span class="h5 mb-0 fw-bold" style="color: #c37960;">${{ product.price }}</span>
+                                    <span class="h5 mb-0 fw-bold" style="color: #c37960;">₱{{ product.price }}</span>
                                     <span class="badge {% if product.is_in_stock %}bg-success{% else %}bg-danger{% endif %}">
                                         {{ product.is_in_stock|yesno:"In Stock,Out of Stock" }}
                                     </span>

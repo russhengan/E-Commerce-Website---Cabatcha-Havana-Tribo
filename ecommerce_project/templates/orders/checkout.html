@@ -64,27 +64,16 @@
 
                 <div class="card mb-3 border-0 shadow-sm" style="border-radius: 15px;">
                     <div class="card-header bg-white border-bottom" style="border-color: #eee1ba !important;">
-                        <h5 class="fw-bold mb-0" style="color: #894e3f;"><i class="bi bi-credit-card me-2" style="color: #c37960;"></i>Payment Method</h5>
+                        <h5 class="fw-bold mb-0" style="color: #894e3f;"><i class="bi bi-cash-coin me-2" style="color: #c37960;"></i>Payment Method</h5>
                     </div>
                     <div class="card-body">
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="payment_method" id="card" value="card" checked style="accent-color: #c37960;">
-                            <label class="form-check-label" for="card" style="color: #555; font-size: 0.95rem;">
-                                <i class="bi bi-credit-card me-2" style="color: #c37960;"></i>Credit/Debit Card
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal" style="accent-color: #c37960;">
-                            <label class="form-check-label" for="paypal" style="color: #555; font-size: 0.95rem;">
-                                <i class="bi bi-paypal me-2" style="color: #c37960;"></i>PayPal
-                            </label>
-                        </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="bank" value="bank_transfer" style="accent-color: #c37960;">
-                            <label class="form-check-label" for="bank" style="color: #555; font-size: 0.95rem;">
-                                <i class="bi bi-bank me-2" style="color: #c37960;"></i>Bank Transfer
+                            <input class="form-check-input" type="radio" name="payment_method" id="cod" value="cod" checked style="accent-color: #c37960;" required>
+                            <label class="form-check-label" for="cod" style="color: #555; font-size: 0.95rem;">
+                                <i class="bi bi-cash-coin me-2" style="color: #c37960;"></i>Cash on Delivery (COD)
                             </label>
                         </div>
+                        <small style="color: #999; margin-top: 0.5rem; display: block;">Payment will be collected upon delivery</small>
                     </div>
                 </div>
 
@@ -105,14 +94,14 @@
                         {% for item in cart.items.all %}
                             <div class="d-flex justify-content-between mb-2" style="color: #555; font-size: 0.95rem;">
                                 <span>{{ item.product.name }} x{{ item.quantity }}</span>
-                                <span>${{ item.get_total_price }}</span>
+                                <span>₱{{ item.get_total_price }}</span>
                             </div>
                         {% endfor %}
                     </div>
                     <hr style="border-color: #eee1ba; border-width: 2px;">
                     <div class="d-flex justify-content-between mb-2" style="color: #555; font-size: 0.95rem;">
                         <span>Subtotal:</span>
-                        <span>${{ cart.get_total_price }}</span>
+                        <span>₱{{ cart.get_total_price }}</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2" style="color: #555; font-size: 0.95rem;">
                         <span>Shipping:</span>
@@ -120,12 +109,12 @@
                     </div>
                     <div class="d-flex justify-content-between mb-3" style="color: #555; font-size: 0.95rem;">
                         <span>Tax:</span>
-                        <span>$0.00</span>
+                        <span>₱0.00</span>
                     </div>
                     <hr style="border-color: #eee1ba; border-width: 2px;">
                     <div class="d-flex justify-content-between p-3 rounded" style="background-color: rgba(240, 215, 167, 0.3);">
                         <strong style="color: #894e3f;">Total:</strong>
-                        <strong class="h5" style="color: #c37960;">${{ cart.get_total_price }}</strong>
+                        <strong class="h5" style="color: #c37960;">₱{{ cart.get_total_price }}</strong>
                     </div>
                 </div>
             </div>

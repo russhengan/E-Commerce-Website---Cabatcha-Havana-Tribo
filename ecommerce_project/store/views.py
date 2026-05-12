@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 from .models import Product, Category, ProductReview
 
 
@@ -47,18 +48,33 @@ def product_detail(request, slug):
 
 @method_decorator(login_required, name='dispatch')
 class AddReviewView(View):
-    """Add a review to a product."""
+    """Add or update a review for a product."""
     
     def post(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
         
-        ProductReview.objects.update_or_create(
+        review, created = ProductReview.objects.update_or_create(
             product=product,
             user=request.user,
             defaults={'rating': rating, 'comment': comment}
         )
+        
+        # If AJAX request, return JSON
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Review submitted successfully!',
+                'review': {
+                    'id': review.id,
+                    'rating': review.rating,
+                    'comment': review.comment,
+                    'user': request.user.get_full_name() or request.user.username,
+                    'created_at': review.created_at.strftime('%b %d, %Y'),
+                    'is_owner': True
+                }
+            })
         
         return render(request, 'store/product_detail.html', {
             'product': product,

@@ -29,56 +29,56 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(self.style.SUCCESS(f'✓ Created category: {category.name}'))
 
-        # Dummy products data
+        # Dummy products data - Prices in Philippine Pesos (₱)
         products_data = [
             # Breads
-            {'name': 'Sourdough Loaf', 'category': 'Breads', 'price': 5.99, 'stock': 20,
+            {'name': 'Sourdough Loaf', 'category': 'Breads', 'price': 150.00, 'stock': 20,
              'description': 'Authentic sourdough loaf with a crispy crust and tangy flavor'},
-            {'name': 'Whole Wheat Bread', 'category': 'Breads', 'price': 4.99, 'stock': 25,
+            {'name': 'Whole Wheat Bread', 'category': 'Breads', 'price': 120.00, 'stock': 25,
              'description': 'Nutritious whole wheat bread, perfect for breakfast'},
-            {'name': 'French Baguette', 'category': 'Breads', 'price': 3.99, 'stock': 30,
+            {'name': 'French Baguette', 'category': 'Breads', 'price': 90.00, 'stock': 30,
              'description': 'Classic French baguette with a golden crust'},
-            {'name': 'Ciabatta Roll', 'category': 'Breads', 'price': 2.49, 'stock': 40,
+            {'name': 'Ciabatta Roll', 'category': 'Breads', 'price': 50.00, 'stock': 40,
              'description': 'Soft Italian ciabatta roll, ideal for sandwiches'},
 
             # Pastries
-            {'name': 'Croissant Butter', 'category': 'Pastries', 'price': 3.50, 'stock': 35,
+            {'name': 'Croissant Butter', 'category': 'Pastries', 'price': 80.00, 'stock': 35,
              'description': 'Buttery French croissant with layers of deliciousness'},
-            {'name': 'Almond Croissant', 'category': 'Pastries', 'price': 4.50, 'stock': 20,
+            {'name': 'Almond Croissant', 'category': 'Pastries', 'price': 110.00, 'stock': 20,
              'description': 'Croissant topped with almond slices and cream'},
-            {'name': 'Chocolate Eclair', 'category': 'Pastries', 'price': 4.99, 'stock': 25,
+            {'name': 'Chocolate Eclair', 'category': 'Pastries', 'price': 120.00, 'stock': 25,
              'description': 'Elegant eclair filled with chocolate cream'},
-            {'name': 'Strawberry Tart', 'category': 'Pastries', 'price': 5.99, 'stock': 15,
+            {'name': 'Strawberry Tart', 'category': 'Pastries', 'price': 150.00, 'stock': 15,
              'description': 'Fresh strawberry tart with custard filling'},
 
             # Cakes
-            {'name': 'Chocolate Layer Cake', 'category': 'Cakes', 'price': 18.99, 'stock': 10,
+            {'name': 'Chocolate Layer Cake', 'category': 'Cakes', 'price': 550.00, 'stock': 10,
              'description': 'Rich chocolate cake with creamy frosting'},
-            {'name': 'Vanilla Cheesecake', 'category': 'Cakes', 'price': 16.99, 'stock': 8,
+            {'name': 'Vanilla Cheesecake', 'category': 'Cakes', 'price': 480.00, 'stock': 8,
              'description': 'Smooth and creamy cheesecake with vanilla flavor'},
-            {'name': 'Red Velvet Cake', 'category': 'Cakes', 'price': 17.99, 'stock': 12,
+            {'name': 'Red Velvet Cake', 'category': 'Cakes', 'price': 520.00, 'stock': 12,
              'description': 'Classic red velvet cake with cream cheese frosting'},
-            {'name': 'Lemon Drizzle Cake', 'category': 'Cakes', 'price': 15.99, 'stock': 14,
+            {'name': 'Lemon Drizzle Cake', 'category': 'Cakes', 'price': 450.00, 'stock': 14,
              'description': 'Moist lemon cake with tangy icing'},
 
             # Cookies
-            {'name': 'Chocolate Chip Cookie', 'category': 'Cookies', 'price': 1.99, 'stock': 100,
+            {'name': 'Chocolate Chip Cookie', 'category': 'Cookies', 'price': 45.00, 'stock': 100,
              'description': 'Classic cookie loaded with chocolate chips'},
-            {'name': 'Oatmeal Raisin Cookie', 'category': 'Cookies', 'price': 1.99, 'stock': 90,
+            {'name': 'Oatmeal Raisin Cookie', 'category': 'Cookies', 'price': 45.00, 'stock': 90,
              'description': 'Hearty oatmeal cookie with juicy raisins'},
-            {'name': 'Peanut Butter Cookie', 'category': 'Cookies', 'price': 2.49, 'stock': 80,
+            {'name': 'Peanut Butter Cookie', 'category': 'Cookies', 'price': 60.00, 'stock': 80,
              'description': 'Rich and creamy peanut butter cookie'},
-            {'name': 'Sugar Cookie', 'category': 'Cookies', 'price': 1.49, 'stock': 120,
+            {'name': 'Sugar Cookie', 'category': 'Cookies', 'price': 35.00, 'stock': 120,
              'description': 'Sweet and simple sugar cookie'},
 
             # Donuts
-            {'name': 'Glazed Donut', 'category': 'Donuts', 'price': 1.50, 'stock': 50,
+            {'name': 'Glazed Donut', 'category': 'Donuts', 'price': 35.00, 'stock': 50,
              'description': 'Classic glazed donut, light and fluffy'},
-            {'name': 'Chocolate Frosted Donut', 'category': 'Donuts', 'price': 1.99, 'stock': 45,
+            {'name': 'Chocolate Frosted Donut', 'category': 'Donuts', 'price': 45.00, 'stock': 45,
              'description': 'Chocolate frosted with sprinkles'},
-            {'name': 'Strawberry Donut', 'category': 'Donuts', 'price': 2.25, 'stock': 30,
+            {'name': 'Strawberry Donut', 'category': 'Donuts', 'price': 55.00, 'stock': 30,
              'description': 'Fresh strawberry filled donut'},
-            {'name': 'Boston Cream Donut', 'category': 'Donuts', 'price': 2.50, 'stock': 25,
+            {'name': 'Boston Cream Donut', 'category': 'Donuts', 'price': 65.00, 'stock': 25,
              'description': 'Classic Boston cream filled donut'},
         ]
 

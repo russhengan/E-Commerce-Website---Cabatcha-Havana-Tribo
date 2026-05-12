@@ -31,7 +31,7 @@
                                 {{ order.order_number }}
                             </td>
                             <td style="color: #555; padding: 1rem;">{{ order.created_at|date:"M d, Y" }}</td>
-                            <td style="color: #c37960; font-weight: 600; padding: 1rem;">${{ order.total_amount }}</td>
+                            <td style="color: #c37960; font-weight: 600; padding: 1rem;">₱{{ order.total_amount }}</td>
                             <td style="padding: 1rem;">
                                 {% if order.status == 'pending' %}
                                     <span class="badge" style="background-color: #F39C12; padding: 0.5rem 1rem; color: white; font-weight: 600; font-size: 0.85rem;">{{ order.get_status_display }}</span>

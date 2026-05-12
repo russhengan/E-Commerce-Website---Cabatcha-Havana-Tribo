@@ -38,11 +38,24 @@
                         <div class="row text-start">
                             <div class="col-md-6">
                                 <p style="color: #894e3f; font-weight: 600; font-size: 0.9rem;">Total Amount:</p>
-                                <p class="h5 fw-bold" style="color: #c37960;">${{ order.total_amount }}</p>
+                                <p class="h5 fw-bold" style="color: #c37960;">₱{{ order.total_amount }}</p>
                             </div>
                             <div class="col-md-6">
                                 <p style="color: #894e3f; font-weight: 600; font-size: 0.9rem;">Status:</p>
                                 <span class="badge" style="background-color: #f0d7a7; color: #894e3f; padding: 0.5rem 1rem; font-size: 0.9rem;">{{ order.get_status_display }}</span>
+                            </div>
+                        </div>
+                        <hr style="border-color: #eee1ba;">
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <p style="color: #894e3f; font-weight: 600; font-size: 0.9rem;">Payment Method:</p>
+                                <p class="h5 fw-bold" style="color: #c37960;">
+                                    {% if order.payment_method == 'cod' %}
+                                        <i class="bi bi-cash-coin me-2" style="color: #c37960;"></i>Cash on Delivery
+                                    {% else %}
+                                        {{ order.get_payment_method_display|default:"COD" }}
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -53,7 +66,7 @@
                             {% for item in order.items.all %}
                                 <div class="d-flex justify-content-between py-2 border-bottom" style="border-color: #eee1ba; color: #555;">
                                     <span>{{ item.product.name }} x{{ item.quantity }}</span>
-                                    <span>${{ item.get_total_price }}</span>
+                                    <span>₱{{ item.get_total_price }}</span>
                                 </div>
                             {% endfor %}
                         </div>
