@@ -30,14 +30,18 @@
           href="{% url 'store:home' %}"
         >
           <img
-  src="{% static 'images/crumb-co-logo.png' %}"
+  src="{% static 'images/crumb-co-logo-1.png' %}"
   alt="Crumb and Co Logo"
   class="me-3 rounded-circle"
   style="
     width: 58px;
     height: 58px;
     object-fit: cover;
-    border: 2px solid #c37960;
+    padding: 4px;
+    background: white;
+    outline: 2px solid #c37960;
+    outline-offset: -2px;
+    border-radius: 50%;
     box-shadow: 0 3px 8px rgba(195, 121, 96, 0.18);
     flex-shrink: 0;
   "

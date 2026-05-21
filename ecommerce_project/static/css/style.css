@@ -52,7 +52,7 @@ h2 {
 .navbar {
     background: white !important;
     box-shadow: 0 2px 8px rgba(195, 121, 96, 0.1);
-    padding: 1.2rem 0;
+    padding: 0.8rem 0;
     border-bottom: 3px solid var(--light-accent);
     position: sticky;
     top: 0;
@@ -67,6 +67,15 @@ h2 {
     align-items: center;
     gap: 10px;
     letter-spacing: -0.5px;
+    line-height: 1;
+    height: 58px;
+}
+
+.navbar-brand span {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    line-height: 1;
 }
 
 .navbar-brand i {
@@ -210,21 +219,6 @@ h2 {
     height: 4px;
     background: linear-gradient(90deg, var(--primary-color), var(--light-accent));
     border-radius: 2px;
-}
-
-.navbar-brand {
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: var(--accent-color) !important;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    letter-spacing: -0.5px;
-}
-
-.navbar-brand i {
-    font-size: 2rem;
-    color: var(--primary-color);
 }
 
 .nav-link {
